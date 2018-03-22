@@ -1,8 +1,8 @@
 
 
-public abstract class Add extends Bin
+public abstract class Div extends Bin
 {	
-	public Add(Exp pLhs, Exp pRhs)
+	public Div(Exp pLhs, Exp pRhs)
     {
         lhs= pLhs;
         rhs=pRhs;
@@ -10,6 +10,6 @@ public abstract class Add extends Bin
 	
 	@Override public void accept(Visitor v)
     {
-        v.visitAdd(this);
+        v.visitDiv(this);
     }
 }

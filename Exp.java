@@ -2,6 +2,6 @@
 
 public abstract class Exp
 {	
-	public abstract accept(Visitor vis){}
+	public abstract void accept(Visitor vis);
 
 }
