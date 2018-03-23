@@ -1,6 +1,6 @@
 
 
-public abstract class Add extends Bin
+public class Add extends Bin
 {	
 	public Add(Exp pLhs, Exp pRhs)
     {

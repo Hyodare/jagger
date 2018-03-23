@@ -1,6 +1,6 @@
 
 
-public abstract class Div extends Bin
+public class Div extends Bin
 {	
 	public Div(Exp pLhs, Exp pRhs)
     {

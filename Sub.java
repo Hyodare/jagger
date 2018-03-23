@@ -1,6 +1,6 @@
 
 
-public abstract class Sub extends Bin
+public class Sub extends Bin
 {	
 	public Sub(Exp pLhs, Exp pRhs)
     {

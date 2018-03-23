@@ -1,8 +1,13 @@
 
 
 public abstract class VisitorVoid extends Visitor 
-{	
-	@Override public Exp visitAdd(Add exp)
+{	@Override public Exp visitBin(Bin exp)
+	{
+		exp.lhs.accept(this);
+		exp.rhs.accept(this);
+		return exp;
+	}
+	/*@Override public Exp visitAdd(Add exp)
 	{
 		exp.lhs.accept(this);
 		exp.rhs.accept(this);
@@ -25,7 +30,7 @@ public abstract class VisitorVoid extends Visitor
 		exp.lhs.accept(this);
 		exp.rhs.accept(this);
 		return exp;
-	}	
+	}	*/
 	@Override public Exp visitNum(Num exp)
 	{
 		return exp;	

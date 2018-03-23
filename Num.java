@@ -1,9 +1,9 @@
 
 
-public abstract class Num extends Exp
+public class Num extends Exp
 {	
-	public int a;
-	public Num(int pA)
+	public double a;
+	public Num(double pA)
     {
         a=pA;
     }

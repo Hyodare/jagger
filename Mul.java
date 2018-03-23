@@ -1,6 +1,6 @@
 
 
-public abstract class Mul extends Bin
+public class Mul extends Bin
 {	
 	public Mul(Exp pLhs, Exp pRhs)
     {
