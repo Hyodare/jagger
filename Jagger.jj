@@ -88,7 +88,7 @@ Exp factor():
 { Token t; Exp e; }
 {
       t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
-	| "-"t=<NUMBER> { return new Num(-Double.parseDouble(a.toString())); }
-	| "+"t=<NUMBER> { return new Num(Double.parseDouble(a.toString())); }
+	| "-"t=<NUMBER> { return new Num(-Double.parseDouble(t.toString())); }
+	| "+"t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
     | "(" e=expression() ")" { return e; }
 }
