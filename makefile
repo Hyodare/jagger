@@ -1,5 +1,5 @@
 
-JFLAGS = -g
+JFLAGS =
 JC = javac
 .SUFFIXES: .java .class
 .java.class:
@@ -15,9 +15,15 @@ CLASSES	= \
 	Visitor.java \
 	VisitorVoid.java 
 	
-default: classes
+default: classes compile
 
 classes: $(CLASSES:.java=.class)
 
+compile:Jagger.jj
+	javacc Jagger.jj
+	$(JC) Jagger.java
+test: test.txt
+	java Jagger test.txt
+	
 clean: 
 	$(RM) *.class

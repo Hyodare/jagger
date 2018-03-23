@@ -3,38 +3,55 @@ options { LOOKAHEAD=1; FORCE_LA_CHECK=true; }
 
 // Fonction principale
 PARSER_BEGIN(Jagger)
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 public class Jagger
 {
-    public static void main(String args[]) throws ParseException
+    public static void main(String args[]) throws ParseException,FileNotFoundException
     {
-        Jagger parser = new Jagger(System.in);
-        parser.mainloop();
+        Jagger parser = new Jagger(new FileInputStream(args[0]));
+		ArrayList<AST> a=new ArrayList<AST>();
+        parser.mainloop(a);
+		
     }
 }
 PARSER_END(Jagger)
 
 // Characters to ignore.
-SKIP: { " " | "\r" | "\t" }
+SKIP: { " " | "\r" | "\t"| "\n" }
 
 // Token specifications.
 TOKEN:
 {
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
-|   < EOL: "\n" >                             // End of line.
+|   < EOL: ";" >                             // End of line.
 }
 
 // Main lopp: read expressions on a line until end of file.
 //     mainloop → (expression <EOL>)* <EOF>
-void mainloop():
-{ Exp a; }
-{
-    (
-      a=expression() <EOL> { a.accept(new PrettyPrinter());System.out.println(); }
+void mainloop(ArrayList<AST> a):
+{AST e;}
+{    (
+      e=ast() <EOL> { a.add(e);/*a.accept(new PrettyPrinter());System.out.println();*/ }
     )*
     <EOF>
 }
+AST ast():
+{ AST a;}
+	{
+	 a=instruction(){return a;}
+	|a=expression(){return a;}		
+}
 
+Ins instruction():
+{Exp a;		}
+{
+	
+	"print("a=expression()")"{return new Print(a);}
+	
+}
 // Expression (the axiom).
 // E -> T ('+'T | '-'T)*
 Exp expression():
@@ -71,7 +88,7 @@ Exp factor():
 { Token t; Exp e; }
 {
       t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
-	| "-"t=<NUMBER> { return new Num(-Double.parseDouble(t.toString())); }
-	| "+"t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
+	| "-"t=<NUMBER> { return new Num(-Double.parseDouble(a.toString())); }
+	| "+"t=<NUMBER> { return new Num(Double.parseDouble(a.toString())); }
     | "(" e=expression() ")" { return e; }
 }

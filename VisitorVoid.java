@@ -35,4 +35,8 @@ public abstract class VisitorVoid extends Visitor
 	{
 		return exp;	
 	}	
+	@Override public Exp visitPrint(Print p)
+	{
+		return p;
+	}
 }

@@ -8,4 +8,5 @@ public abstract class Visitor
 	public abstract Exp visitSub(Sub sub);
 	public abstract Exp visitDiv(Div div);*/
 	public abstract Exp visitNum(Num num);
+	public abstract Exp visitPrint(Print p);
 }

@@ -49,4 +49,11 @@ public class PrettyPrinter extends VisitorVoid
 		
 		return exp;	
 	}	
+	@Override public Exp visitPrint(Print p)
+	{
+		System.out.print("print(");
+		p.exp.accept(this);
+		System.out.print(")");
+		return p;
+	}
 }
