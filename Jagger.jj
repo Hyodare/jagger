@@ -85,10 +85,10 @@ Exp term():
 // Factor of an expression.
 // F -> <NUMBER> | "(" E ")"
 Exp factor():
-{ Token t; Exp e; }
+{ Token t; Exp e,a; }
 {
       t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
-	| "-"t=<NUMBER> { return new Num(-Double.parseDouble(t.toString())); }
-	| "+"t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
+	| "-"a=factor() { return new Una(a,"-"); }
+	| "+"a=factor() { return new Una(a,"+"); }
     | "(" e=expression() ")" { return e; }
 }

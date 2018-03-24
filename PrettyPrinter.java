@@ -2,13 +2,19 @@
 
 public class PrettyPrinter extends VisitorVoid
 {	
-	@Override public Exp visitBin(Bin exp)
+	@Override public AST visitBin(Bin exp)
 	{
 		System.out.print("(");
 		exp.lhs.accept(this);
 		System.out.print(exp.sym);
 		exp.rhs.accept(this);
 		System.out.print(")");
+		return exp;
+	}
+		@Override public AST visitUna(Una exp)
+	{
+		System.out.print(exp.sym);
+		exp.a.accept(this);
 		return exp;
 	}
 	/*@Override public Exp visitAdd(Add exp)
@@ -43,13 +49,13 @@ public class PrettyPrinter extends VisitorVoid
 		exp.rhs.accept(this);
 		return exp;
 	}	*/
-	@Override public Exp visitNum(Num exp)
+	@Override public AST visitNum(Num exp)
 	{
 		System.out.print(exp.a);
 		
 		return exp;	
 	}	
-	@Override public Exp visitPrint(Print p)
+	@Override public AST visitPrint(Print p)
 	{
 		System.out.print("print(");
 		p.exp.accept(this);

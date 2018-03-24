@@ -8,10 +8,6 @@ JC = javac
 CLASSES	= \
 	Exp.java \
 	Bin.java \
-	Add.java \
-	Mul.java \
-	Div.java \
-	Sub.java \
 	Visitor.java \
 	VisitorVoid.java 
 	

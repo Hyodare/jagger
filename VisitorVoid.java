@@ -1,10 +1,15 @@
 
 
 public abstract class VisitorVoid extends Visitor 
-{	@Override public Exp visitBin(Bin exp)
+{	@Override public AST visitBin(Bin exp)
 	{
 		exp.lhs.accept(this);
 		exp.rhs.accept(this);
+		return exp;
+	}
+	@Override public AST visitUna(Una exp)
+	{
+		exp.a.accept(this);
 		return exp;
 	}
 	/*@Override public Exp visitAdd(Add exp)
@@ -31,11 +36,11 @@ public abstract class VisitorVoid extends Visitor
 		exp.rhs.accept(this);
 		return exp;
 	}	*/
-	@Override public Exp visitNum(Num exp)
+	@Override public AST visitNum(Num exp)
 	{
 		return exp;	
 	}	
-	@Override public Exp visitPrint(Print p)
+	@Override public AST visitPrint(Print p)
 	{
 		return p;
 	}
