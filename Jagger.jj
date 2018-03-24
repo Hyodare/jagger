@@ -59,8 +59,10 @@ Ins instruction():
 // Expression (the axiom).
 // E -> T ('+'T | '-'T)*
 Exp expression():
-{ Exp a,b; }
+{ Exp a,b,c; }
 {
+	"if" a=expression() "then" b=expression() "else" c=expression() {return new Ite(a,b,c);}
+	|	
     a=term()
     (
       "+" b=expression() {return new Bin(a,"+",b); }
@@ -70,7 +72,7 @@ Exp expression():
 	| ">" b=expression() {return new Bin(a,">",b); }
 	| "<=" b=expression() {return new Bin(a,"<=",b); }
 	| ">=" b=expression() {return new Bin(a,">=",b); }
-	| "<>" b=expression() {return new Bin(a,"<>",b); }
+	| "<>" b=expression() {return new Bin(a,"<>",b); } 
     )? { return a; }
 }
 

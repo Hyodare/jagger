@@ -42,6 +42,14 @@ public abstract class VisitorVoid extends Visitor
 	}	
 	@Override public AST visitPrint(Print p)
 	{
+		p.a.accept(this);
+		return p;
+	}
+	@Override public AST visitIte(Ite p)
+	{
+		p.cond.accept(this);
+		p.pos1.accept(this);
+		p.pos2.accept(this);
 		return p;
 	}
 }

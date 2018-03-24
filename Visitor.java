@@ -10,4 +10,5 @@ public abstract class Visitor
 	public abstract Exp visitDiv(Div div);*/
 	public abstract AST visitNum(Num num);
 	public abstract AST visitPrint(Print p);
+	public abstract AST visitIte(Ite p);
 }

@@ -64,4 +64,15 @@ public class PrettyPrinter extends VisitorVoid
 		p.a.accept(new Eval()).accept(this);
 		return p;
 	}
+	@Override public AST visitIte(Ite p)
+	{
+		System.out.print("if(");
+		p.cond.accept(this);
+		System.out.print(") then(");
+		p.pos1.accept(this);
+		System.out.print(") else(");
+		p.pos2.accept(this);
+		System.out.print(")");
+		return p;
+	}
 }

@@ -1,4 +1,4 @@
-public class Eval extends Visitor
+public class Eval extends VisitorVoid
 {	
 	public AST visitBin(Bin exp)
 	{
@@ -6,9 +6,9 @@ public class Eval extends Visitor
 		switch(exp.sym)
 		{
 			case "+":return new Num(((Num)((exp).lhs.accept(this))).a+((Num)((exp).rhs.accept(this))).a);
-			case "-":return new Num(((Num)((exp).lhs.accept(this))).a+((Num)((exp).rhs.accept(this))).a);
-			case "*":return new Num(((Num)((exp).lhs.accept(this))).a+((Num)((exp).rhs.accept(this))).a);
-			case "/":return new Num(((Num)((exp).lhs.accept(this))).a+((Num)((exp).rhs.accept(this))).a);
+			case "-":return new Num(((Num)((exp).lhs.accept(this))).a-((Num)((exp).rhs.accept(this))).a);
+			case "*":return new Num(((Num)((exp).lhs.accept(this))).a*((Num)((exp).rhs.accept(this))).a);
+			case "/":return new Num(((Num)((exp).lhs.accept(this))).a/((Num)((exp).rhs.accept(this))).a);
 			case "<":if(((Num)((exp).lhs.accept(this))).a<((Num)((exp).rhs.accept(this))).a){return new Num(1);} else {return new Num(0);}
 			case ">":if(((Num)((exp).lhs.accept(this))).a>((Num)((exp).rhs.accept(this))).a){return new Num(1);} else {return new Num(0);}
 			case "==":if(((Num)((exp).lhs.accept(this))).a==((Num)((exp).rhs.accept(this))).a){return new Num(1);} else {return new Num(0);}
@@ -24,7 +24,7 @@ public class Eval extends Visitor
 		switch(exp.sym)
 		{
 			case "+":return exp.a.accept(this);
-			case "-":return new Num(((Num)exp.a.accept(this)).a);
+			case "-":return new Num(-((Num)exp.a.accept(this)).a);
 			default: return exp;
 		}
 	}
@@ -40,5 +40,9 @@ public class Eval extends Visitor
 	public AST visitPrint(Print p)
 	{
 		return new Print(((Exp)p.a.accept(this)));
+	}
+	public AST visitIte(Ite p)
+	{
+		if (((Num)(p.cond.accept(this))).a!=0){ return new Num(((Num)p.pos1.accept(this)).a);} else {return new Num(((Num)p.pos2.accept(this)).a);}
 	}
 }
