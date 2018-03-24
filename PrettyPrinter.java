@@ -11,7 +11,7 @@ public class PrettyPrinter extends VisitorVoid
 		System.out.print(")");
 		return exp;
 	}
-		@Override public AST visitUna(Una exp)
+	@Override public AST visitUna(Una exp)
 	{
 		System.out.print(exp.sym);
 		exp.a.accept(this);
@@ -58,8 +58,10 @@ public class PrettyPrinter extends VisitorVoid
 	@Override public AST visitPrint(Print p)
 	{
 		System.out.print("print(");
-		p.exp.accept(this);
+		p.a.accept(this);
 		System.out.print(")");
+		System.out.print("---->");
+		p.a.accept(new Eval()).accept(this);
 		return p;
 	}
 }

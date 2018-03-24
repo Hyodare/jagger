@@ -9,9 +9,9 @@ public class Print extends Ins
     {
         a=pA;
     }
-	@Override public void accept(Visitor v)
+	@Override public AST accept(Visitor v)
 	{
-        v.visitPrint(this);
+        return v.visitPrint(this);
     }
 
 }

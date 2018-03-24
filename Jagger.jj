@@ -13,13 +13,17 @@ public class Jagger
         Jagger parser = new Jagger(new FileInputStream(args[0]));
 		ArrayList<AST> a=new ArrayList<AST>();
         parser.mainloop(a);
+		for(int i=0;i<a.size();i++)
+		{	
+			a.get(i).accept(new Eval()).accept(new PrettyPrinter());System.out.println();
+		}
 		
     }
 }
 PARSER_END(Jagger)
 
 // Characters to ignore.
-SKIP: { " " | "\r" | "\t"| "\n" }
+SKIP: { " " | "\r" | "\t" | "\n"}
 
 // Token specifications.
 TOKEN:
@@ -61,7 +65,7 @@ Exp expression():
     (
       "+" b=expression() {return new Bin(a,"+",b); }
     | "-" b=expression() {return new Bin(a,"-",b); }
-	| "=" b=expression() {return new Bin(a,"=",b); }
+	| "==" b=expression() {return new Bin(a,"=",b); }
 	| "<" b=expression() {return new Bin(a,"<",b); }
 	| ">" b=expression() {return new Bin(a,">",b); }
 	| "<=" b=expression() {return new Bin(a,"<=",b); }

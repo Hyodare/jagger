@@ -8,8 +8,8 @@ public class Num extends Exp
         a=pA;
     }
 	
-	@Override public void accept(Visitor v)
+	@Override public AST accept(Visitor v)
     {
-        v.visitNum(this);
+        return v.visitNum(this);
     }
 }

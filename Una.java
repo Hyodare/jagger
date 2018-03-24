@@ -6,11 +6,12 @@ public class Una extends Exp
 	public Una(Exp pLhs,String pSym)
     {
         a= pLhs;
+		sym=pSym;
 		
     }
-	@Override public void accept(Visitor v)
+	@Override public AST accept(Visitor v)
 	{
-        v.visitUna(this);
+        return v.visitUna(this);
     }
 
 }

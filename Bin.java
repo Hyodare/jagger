@@ -11,9 +11,9 @@ public class Bin extends Exp
 		sym=pSym;
         rhs=pRhs;
     }
-	@Override public void accept(Visitor v)
+	@Override public AST accept(Visitor v)
 	{
-        v.visitBin(this);
+        return v.visitBin(this);
     }
 
 }
