@@ -11,6 +11,7 @@ CLASSES	= \
 	Una.java \
 	Ins.java \
 	Print.java \
+	Eval.java \
 	AST.java \
 	Visitor.java \
 	VisitorVoid.java \
