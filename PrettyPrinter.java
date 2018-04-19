@@ -63,7 +63,9 @@ public class PrettyPrinter extends VisitorVoid
 		System.out.print(")");
 		System.out.print("---->");
 		//System.out.print
-		p.a.accept(new Eval()).accept(this);
+		Eval2 a=new Eval2();
+		p.a.accept(a);
+		System.out.print(a.val);
 		return p;
 	}
 	@Override public AST visitIte(Ite p)

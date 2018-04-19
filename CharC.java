@@ -7,7 +7,6 @@ public class CharC extends Val
 		//a=pA;
 		if(pA.length()>0 && pA.substring(0,1).equals("'"))
 		{
-			System.out.println("marche");
 		a=pA.substring(1,pA.length()-1);
 		
 		}
@@ -24,7 +23,7 @@ public class CharC extends Val
     }
 	
 	@Override public String toString()
-	{	return "'"+a+"'";
+	{	return ""+a+"";
 	}
 	
 	
@@ -85,7 +84,6 @@ public class CharC extends Val
 	}
 	@Override public Val eqa(Val val)
 	{
-		System.out.println(a.equals(((CharC)val).a));
 		switch(enumClass.getNb(val))
 		{
 			//case (new Num()).getClass():return new Bool(val.a==a);
