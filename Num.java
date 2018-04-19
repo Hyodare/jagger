@@ -29,7 +29,7 @@ public class Num extends Val
 	{
 		switch(enumClass.getNb(val))
 		{
-			case 1:return new Num(((Num)val).a-a);
+			case 1:return new Num(a-((Num)val).a);
 			//case 2:
 			default: return new ErrorType("erreur de typage");
 		}
@@ -57,7 +57,7 @@ public class Num extends Val
 	{
 		switch(enumClass.getNb(val))
 		{
-			case 1:return new Num(((Num)val).a/a);
+			 case 1:return new Num(a/((Num)val).a);
 			//case 2:
 			default: return new ErrorType("erreur de typage");
 		}
