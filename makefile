@@ -11,8 +11,12 @@ CLASSES	= \
 	Una.java \
 	Ins.java \
 	Print.java \
-	Eval.java \
+	Eval2.java \
 	AST.java \
+	Val.java \
+	Bool.java \
+	CharC.java \
+	ErrorType.java \
 	Visitor.java \
 	VisitorVoid.java \
 	PrettyPrinter.java 

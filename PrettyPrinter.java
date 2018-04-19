@@ -2,6 +2,7 @@
 
 public class PrettyPrinter extends VisitorVoid
 {	
+	//public String 
 	@Override public AST visitBin(Bin exp)
 	{
 		System.out.print("(");
@@ -61,6 +62,7 @@ public class PrettyPrinter extends VisitorVoid
 		p.a.accept(this);
 		System.out.print(")");
 		System.out.print("---->");
+		//System.out.print
 		p.a.accept(new Eval()).accept(this);
 		return p;
 	}
@@ -74,5 +76,19 @@ public class PrettyPrinter extends VisitorVoid
 		p.pos2.accept(this);
 		System.out.print(")");
 		return p;
+	}
+	@Override public AST visitCharC(CharC p)
+	{
+		System.out.print("'");
+		System.out.print(p.a);
+		System.out.print("'");
+		return p;		
+	}
+	@Override public AST visitError(ErrorType p)
+	{
+		System.out.print("Error: ");
+		System.out.print(p.a);
+		System.out.print(" ");
+		return p;		
 	}
 }

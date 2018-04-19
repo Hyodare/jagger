@@ -11,4 +11,8 @@ public abstract class Visitor
 	public abstract AST visitNum(Num num);
 	public abstract AST visitPrint(Print p);
 	public abstract AST visitIte(Ite p);
+	public abstract AST visitCharC(CharC exp);
+	public abstract AST visitError(ErrorType exp);
+	public abstract AST visitBool(Bool exp);
+	
 }

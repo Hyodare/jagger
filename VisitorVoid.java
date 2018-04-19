@@ -52,4 +52,18 @@ public abstract class VisitorVoid extends Visitor
 		p.pos2.accept(this);
 		return p;
 	}
+	
+	@Override public AST visitError(ErrorType p)
+	{
+		return p;
+	}
+	
+	@Override public AST visitCharC(CharC p)
+	{
+		return p;
+	}
+	@Override public AST visitBool(Bool p)
+	{
+		return p;
+	}
 }

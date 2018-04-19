@@ -13,9 +13,10 @@ public class Jagger
         Jagger parser = new Jagger(new FileInputStream(args[0]));
 		ArrayList<AST> a=new ArrayList<AST>();
         parser.mainloop(a);
+		
 		for(int i=0;i<a.size();i++)
-		{	
-			a.get(i).accept(new Eval()).accept(new PrettyPrinter());System.out.println();
+		{	Eval2 aze=new Eval2();
+			a.get(i).accept(aze).accept(new PrettyPrinter());System.out.print("--->");System.out.println(aze.val);
 		}
 		
     }
@@ -31,6 +32,7 @@ TOKEN:
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
 |   < EOL: ";" >                             // End of line.
+|	< CHARC:("'")(["a"-"z"])*("'")>
 }
 
 // Main lopp: read expressions on a line until end of file.
@@ -67,7 +69,7 @@ Exp expression():
     (
       "+" b=expression() {return new Bin(a,"+",b); }
     | "-" b=expression() {return new Bin(a,"-",b); }
-	| "==" b=expression() {return new Bin(a,"=",b); }
+	| "==" b=expression() {return new Bin(a,"==",b); }
 	| "<" b=expression() {return new Bin(a,"<",b); }
 	| ">" b=expression() {return new Bin(a,">",b); }
 	| "<=" b=expression() {return new Bin(a,"<=",b); }
@@ -94,6 +96,7 @@ Exp factor():
 { Token t; Exp e,a; }
 {
       t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
+	| t=<CHARC>  { return new CharC(t.toString());}
 	| "-"a=factor() { return new Una(a,"-"); }
 	| "+"a=factor() { return new Una(a,"+"); }
     | "(" e=expression() ")" { return e; }
