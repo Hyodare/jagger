@@ -32,7 +32,7 @@ TOKEN:
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
 |   < EOL: ";" >                             // End of line.
-|	< CHARC:("'")(["a"-"z"])*("'")>
+|	< CHARC:("'")(~["'"])*("'")>
 }
 
 // Main lopp: read expressions on a line until end of file.

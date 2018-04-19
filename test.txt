@@ -14,8 +14,8 @@ print('foo');
 'foo'+'foo';
 'foo'=='foo';
 'foo'>'foo';
-'foo'>='foo';
-'foo'<>'foo';
+'fo~~~~o'>='foo';
+'f521351oo'<>'foo';
 'foo'<'foo';
 'foo'<='foo';
 
