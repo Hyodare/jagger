@@ -42,7 +42,6 @@ void mainloop(ArrayList<AST> a):
 {    (
       e=ast() <EOL> { a.add(e);/*a.accept(new PrettyPrinter());System.out.println();*/ }
     )*
-    <EOF>
 }
 AST ast():
 { AST a;}
