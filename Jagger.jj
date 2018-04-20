@@ -15,7 +15,7 @@ public class Jagger
 		
 		for(int i=0;i<a.size();i++)
 		{	Eval2 aze=new Eval2();
-			a.get(i).accept(aze).accept(new PrettyPrinter());System.out.print("--->");System.out.println(aze.val);
+			a.get(i)/*.accept(new PrettyPrinter());System.out.println("");*/.accept(aze);System.out.print("--->");System.out.println(aze.val);
 		}
 		
     }
@@ -33,13 +33,27 @@ TOKEN:
 |   < EOL: ";" >                             // End of line.
 |	< SEP: "," >
 |	< CHARC:("'")(~["'"])*("'")>
-|	< VAR: (["a"-"z","A"-"Z","_"])(["a"-"z","A"-"Z","_","0"-"9"])*>
+|	< IF:"if">
+|	< THEN:"then">
+|	< ELSE:"else">
+|	< LET:"let">
+|	< IN:"in">
+|	< END:"end">
+|	< PRINT:"print">
+|	< VAR:"var">
+
+}
+
+TOKEN:
+{
+	< VARIABLE: (["a"-"z","A"-"Z","_"])(["a"-"z","A"-"Z","_","0"-"9"])*>
+
 }
 
 // Main lopp: read expressions on a line until end of file.
 //     mainloop → (expression <EOL>)* <EOF>
 ArrayList<AST> mainloop():
-{ArrayList<AST>a;AST e;}
+{ArrayList<AST>a=new ArrayList<AST>();AST e;}
 {    (
       e=ast() <EOL> { a.add(e);/*a.accept(new PrettyPrinter());System.out.println();*/ }
     )*
@@ -54,27 +68,28 @@ AST ast():
 
 Ins instruction():
 {	Exp a;
-	ArrayList<GenCtx> b=new ArrayList<GenCtx>();
-	ArrayList<AST> c=new ArrayList<AST>();
+	ArrayList<GenCtx> b;
+	ArrayList<AST> c;
 }
 {
 	
-	"print("a=expression()")"{return new Print(a);}
-	| "let" b=genCtx() "in" mainloop(c) "end" {return new Lie(b,c);}
+	<PRINT>"("a=expression()")"{return new Print(a);}
+	| <LET> b=genCtx() <IN> c=mainloop() <END> {return new LetIn(b,c);}
 	
 }
 
 ArrayList<GenCtx> genCtx():
-{}
+{ArrayList<GenCtx>a=new ArrayList<GenCtx>();Exp e;Token t;}
 {
-	"var" t=<VAR> ":="a=expression <SEP> (b=genCtx(){return new GenCtx(t.toString(),a,b);})?{new GenCtx(t.toString(),a,)
+	(<VAR> t=<VARIABLE> ":="e=expression() {a.add(new GenCtx(t.toString(),e));})+{return a;}
+}
 		
 // Expression (the axiom).
 // E -> T ('+'T | '-'T)*
 Exp expression():
 { Exp a,b,c; }
 {
-	"if" a=expression() "then" b=expression() "else" c=expression() {return new Ite(a,b,c);}
+	<IF> a=expression() <THEN> b=expression() <ELSE> c=expression() {return new Ite(a,b,c);}
 	|	
     a=term()
     (
@@ -107,7 +122,7 @@ Exp factor():
 { Token t; Exp e,a; }
 {
       t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
-	| t=<VAR> {return new Var(t.toString());}
+	| t=<VARIABLE> {return new Var(t.toString());}
 	| t=<CHARC>  { return new CharC(t.toString());}
 	| "-"a=factor() { return new Una(a,"-"); }
 	| "+"a=factor() { return new Una(a,"+"); }

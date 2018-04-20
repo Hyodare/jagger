@@ -14,6 +14,10 @@ CLASSES	= \
 	Eval2.java \
 	AST.java \
 	Val.java \
+	Var.java \
+	Context.java \
+	GenCtx.java \
+	LetIn.java \
 	Bool.java \
 	CharC.java \
 	ErrorType.java \
