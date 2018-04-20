@@ -13,5 +13,5 @@ public abstract class Visitor
 	public abstract AST visitVar(Var exp);
 	public abstract AST visitGenCtx(GenCtx exp);
 	public abstract AST visitLetIn(LetIn exp);
-	
+	public abstract AST visitAffect(Affect exp);
 }

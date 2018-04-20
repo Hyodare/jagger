@@ -93,4 +93,12 @@ public class PrettyPrinter extends VisitorVoid
 		System.out.print(exp.name);
 		return exp;
 	}
+	@Override public AST visitAffect(Affect exp)
+	{
+		System.out.print(exp.name);
+		System.out.print(":=");
+		exp.exp.accept(this);
+		System.out.print(";");
+		return exp;
+	}
 }

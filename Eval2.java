@@ -75,24 +75,25 @@
 	}
 	public AST visitIte(Ite exp)
 	{
-		Eval2 val1= new Eval2();
-		Eval2 cond= new Eval2();
+		Eval2 val1= new Eval2(ctx);
+		Eval2 cond= new Eval2(ctx);
 		(exp).cond.accept(cond);
 		int a;
-		if(enumClass.getNb(cond.val)!=0){val=new ErrorType("il doit y avoir un Bool dans les conditions");return exp;}
+		if(enumClass.getNb(cond.val)!=0){val=new ErrorType("error : there must be a boolean in conditions");return exp;}
 		if (((Bool)(cond.val)).a!=true){ (exp).pos1.accept(val1);val=val1.val;return exp;} else {(exp).pos2.accept(val1);val=val1.val;return exp;}
 	}
 	
 	public AST visitLetIn(LetIn p)
 	{
+		Eval2 a=new Eval2(ctx);
 		for(int i=0;i<p.b.size();i++)
 		{	
-			p.b.get(i).accept(this);
+			p.b.get(i).accept(a);
 			//System.out.println("apres it: "+i+ "   "+ctx.a.containsKey(p.b.get(i).name));
 		}
-		Eval2 a;
+		//Eval2 a;
 		for(int i=0;i<p.c.size();i++)
-		{	a=new Eval2(ctx);
+		{	//a=new Eval2(ctx);
 			p.c.get(i).accept(a);
 			//System.out.println(a.val);
 		}
@@ -117,7 +118,20 @@
 		val=ctx.get(exp.name);
 		//System.out.println(val);
 		if(val==null)
-			System.out.println("erreur la variable n'existe pas dans ce context");
+			System.out.println("error : the variable does not exist in this Context");
+		return exp;
+	}
+	
+	@Override public AST visitAffect(Affect exp)
+	{
+		if(ctx.a.containsKey(exp.name)==false)
+		{
+			System.out.println("error : undeclared variable");
+			return exp;
+		}
+		Eval2 a=new Eval2(ctx);
+		exp.exp.accept(a);
+		ctx.put(exp.name,a.val);
 		return exp;
 	}
 		

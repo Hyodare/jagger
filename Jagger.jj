@@ -72,11 +72,13 @@ Ins instruction():
 {	Exp a;
 	ArrayList<GenCtx> b;
 	ArrayList<AST> c;
+	Token t;
 }
 {
 	
 	<PRINT>"("a=expression()")"{return new Print(a);}
 	| <LET> b=genCtx() <IN> c=mainloop() <END> {return new LetIn(b,c);}
+	| t=<VARIABLE> ":=" a=expression(){return new Affect(t.toString(),a);}
 	
 }
 

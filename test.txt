@@ -22,6 +22,10 @@ print('foo');
 let var i := 10
 in
   print(i);
-  let var i := i * i  in    print(i);  end;
+  let var i := i * i  in i := 5 ;  print(i);  end;
   print(i);
+  i:=3;
+   print(i);
+  
 end;
+ print(i);

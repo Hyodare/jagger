@@ -62,6 +62,11 @@ public abstract class VisitorVoid extends Visitor
 		}
 		return p;
 	}
+	@Override public AST visitAffect(Affect exp)
+	{
+		exp.exp.accept(this);		
+		return exp;
+	}
 	
 	
 	
