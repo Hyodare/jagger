@@ -11,8 +11,7 @@ public class Jagger
     public static void main(String args[]) throws ParseException,FileNotFoundException
     {
         Jagger parser = new Jagger(new FileInputStream(args[0]));
-		ArrayList<AST> a=new ArrayList<AST>();
-        parser.mainloop(a);
+		ArrayList<AST> a=parser.mainloop();
 		
 		for(int i=0;i<a.size();i++)
 		{	Eval2 aze=new Eval2();
@@ -32,17 +31,19 @@ TOKEN:
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
 |   < EOL: ";" >                             // End of line.
+|	< SEP: "," >
 |	< CHARC:("'")(~["'"])*("'")>
+|	< VAR: (["a"-"z","A"-"Z","_"])(["a"-"z","A"-"Z","_","0"-"9"])*>
 }
 
 // Main lopp: read expressions on a line until end of file.
 //     mainloop → (expression <EOL>)* <EOF>
-void mainloop(ArrayList<AST> a):
-{AST e;}
+ArrayList<AST> mainloop():
+{ArrayList<AST>a;AST e;}
 {    (
       e=ast() <EOL> { a.add(e);/*a.accept(new PrettyPrinter());System.out.println();*/ }
     )*
-    <EOF>
+    /* <EOF>*/{	return a;}
 }
 AST ast():
 { AST a;}
@@ -52,12 +53,22 @@ AST ast():
 }
 
 Ins instruction():
-{Exp a;		}
+{	Exp a;
+	ArrayList<GenCtx> b=new ArrayList<GenCtx>();
+	ArrayList<AST> c=new ArrayList<AST>();
+}
 {
 	
 	"print("a=expression()")"{return new Print(a);}
+	| "let" b=genCtx() "in" mainloop(c) "end" {return new Lie(b,c);}
 	
 }
+
+ArrayList<GenCtx> genCtx():
+{}
+{
+	"var" t=<VAR> ":="a=expression <SEP> (b=genCtx(){return new GenCtx(t.toString(),a,b);})?{new GenCtx(t.toString(),a,)
+		
 // Expression (the axiom).
 // E -> T ('+'T | '-'T)*
 Exp expression():
@@ -96,6 +107,7 @@ Exp factor():
 { Token t; Exp e,a; }
 {
       t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
+	| t=<VAR> {return new Var(t.toString());}
 	| t=<CHARC>  { return new CharC(t.toString());}
 	| "-"a=factor() { return new Una(a,"-"); }
 	| "+"a=factor() { return new Una(a,"+"); }
