@@ -12,30 +12,6 @@ public abstract class VisitorVoid extends Visitor
 		exp.a.accept(this);
 		return exp;
 	}
-	/*@Override public Exp visitAdd(Add exp)
-	{
-		exp.lhs.accept(this);
-		exp.rhs.accept(this);
-		return exp;
-	}
-	@Override public Exp visitMul(Mul exp)
-	{
-		exp.lhs.accept(this);
-		exp.rhs.accept(this);
-		return exp;
-	}
-	@Override public Exp visitSub(Sub exp)
-	{
-		exp.lhs.accept(this);
-		exp.rhs.accept(this);
-		return exp;
-	}
-	@Override public Exp visitDiv(Div exp)
-	{
-		exp.lhs.accept(this);
-		exp.rhs.accept(this);
-		return exp;
-	}	*/
 	@Override public AST visitNum(Num exp)
 	{
 		return exp;	
@@ -66,4 +42,27 @@ public abstract class VisitorVoid extends Visitor
 	{
 		return p;
 	}
+	@Override public AST visitVar(Var p)
+	{	
+	return p;
+	}
+	@Override public AST visitGenCtx(GenCtx p)
+	{	
+	return p;
+	}
+	@Override public AST visitLetIn(LetIn p)
+	{
+		for(int i=0;i<p.b.size();i++)
+		{	
+			p.b.get(i).accept(this);
+		}
+		for(int i=0;i<p.c.size();i++)
+		{	
+			p.c.get(i).accept(this);
+		}
+		return p;
+	}
+	
+	
+	
 }

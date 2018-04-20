@@ -1,10 +1,20 @@
  public class Eval2 extends VisitorVoid
 {	
 	public Val val;
+	public Context ctx;
+	
+	public Eval2()
+	{	ctx=new Context();
+	}
+	
+	public Eval2(Context pctx)
+	{	ctx=new Context(pctx);
+	}
+
 	public AST visitBin(Bin exp)
 	{
-		Eval2 val1= new Eval2();
-		Eval2 val2= new Eval2();
+		Eval2 val1= new Eval2(ctx);
+		Eval2 val2= new Eval2(ctx);
 		(exp).lhs.accept(val1);
 		Val a=val1.val;
 		(exp).rhs.accept(val2);
@@ -27,7 +37,8 @@
 		return exp;
 	}
 	public AST visitUna(Una exp)
-	{	Eval2 val1= new Eval2();
+	{	
+		Eval2 val1= new Eval2(ctx);
 		exp.a.accept(val1);
 		Val a =val1.val;
 		switch(exp.sym)
@@ -39,10 +50,6 @@
 		}
 		return exp;
 	}
-	/*public abstract Exp visitAdd(Add add);
-	public abstract Exp visitMul(Mul mul);
-	public abstract Exp visitSub(Sub sub);
-	public abstract Exp visitDiv(Div div);*/
 	public AST visitNum(Num exp)
 	{
 		val= exp;
@@ -58,9 +65,12 @@
 		val= exp;
 		return exp;
 	}
-	
 	public AST visitPrint(Print exp)
 	{
+		Eval2 a=new Eval2(ctx);
+		exp.a.accept(a);
+		System.out.println(a.val);
+		//System.out.println(ctx.a.containsKey("a"));
 		return exp;
 	}
 	public AST visitIte(Ite exp)
@@ -72,4 +82,66 @@
 		if(enumClass.getNb(cond.val)!=0){val=new ErrorType("il doit y avoir un Bool dans les conditions");return exp;}
 		if (((Bool)(cond.val)).a!=true){ (exp).pos1.accept(val1);val=val1.val;return exp;} else {(exp).pos2.accept(val1);val=val1.val;return exp;}
 	}
+	
+	public AST visitLetIn(LetIn p)
+	{
+		for(int i=0;i<p.b.size();i++)
+		{	
+			p.b.get(i).accept(this);
+			//System.out.println("apres it: "+i+ "   "+ctx.a.containsKey(p.b.get(i).name));
+		}
+		Eval2 a;
+		for(int i=0;i<p.c.size();i++)
+		{	a=new Eval2(ctx);
+			p.c.get(i).accept(a);
+			//System.out.println(a.val);
+		}
+		return p;
+	}
+	
+	public AST visitGenCtx(GenCtx exp)
+	{//System.out.println("jajoute: "+exp.name);
+	
+		Eval2 a=new Eval2(ctx);
+		//System.out.println("debut ctx : "+a.ctx.a.containsKey("i"));
+		exp.exp.accept(a);
+		ctx.put(exp.name,a.val);
+		//System.out.println("fin ctx : "+a.ctx.a.containsKey("i"));
+		return exp;
+	}
+	
+	public AST visitVar(Var exp)
+	{
+		//System.out.println("name: "+exp.name);
+		//System.out.println(ctx.a.containsKey("i"));
+		val=ctx.get(exp.name);
+		//System.out.println(val);
+		if(val==null)
+			System.out.println("erreur la variable n'existe pas dans ce context");
+		return exp;
+	}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
 }

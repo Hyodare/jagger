@@ -11,12 +11,11 @@ public class Jagger
     public static void main(String args[]) throws ParseException,FileNotFoundException
     {
         Jagger parser = new Jagger(new FileInputStream(args[0]));
-		ArrayList<AST> a=new ArrayList<AST>();
-        parser.mainloop(a);
+		ArrayList<AST> a=parser.mainloop();
 		
 		for(int i=0;i<a.size();i++)
 		{	Eval2 aze=new Eval2();
-			a.get(i).accept(aze).accept(new PrettyPrinter());System.out.print("--->");System.out.println(aze.val);
+			a.get(i)/*.accept(new PrettyPrinter());System.out.println("");*/.accept(aze);System.out.print("--->");System.out.println(aze.val);
 		}
 		
     }
@@ -32,16 +31,36 @@ TOKEN:
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
 |   < EOL: ";" >                             // End of line.
+|	< SEP: "," >
 |	< CHARC:("'")(~["'"])*("'")>
+|	< IF:"if">
+|	< THEN:"then">
+|	< ELSE:"else">
+|	< LET:"let">
+|	< IN:"in">
+|	< END:"end">
+|	< PRINT:"print">
+|	< VAR:"var">
+
+}
+
+TOKEN:
+{
+	< VARIABLE: (["a"-"z","A"-"Z","_"])(["a"-"z","A"-"Z","_","0"-"9"])*>
+
 }
 
 // Main lopp: read expressions on a line until end of file.
 //     mainloop → (expression <EOL>)* <EOF>
-void mainloop(ArrayList<AST> a):
-{AST e;}
+ArrayList<AST> mainloop():
+{ArrayList<AST>a=new ArrayList<AST>();AST e;}
 {    (
       e=ast() <EOL> { a.add(e);/*a.accept(new PrettyPrinter());System.out.println();*/ }
     )*
+<<<<<<< HEAD
+=======
+    /* <EOF>*/{	return a;}
+>>>>>>> variables
 }
 AST ast():
 { AST a;}
@@ -51,18 +70,29 @@ AST ast():
 }
 
 Ins instruction():
-{Exp a;		}
+{	Exp a;
+	ArrayList<GenCtx> b;
+	ArrayList<AST> c;
+}
 {
 	
-	"print("a=expression()")"{return new Print(a);}
+	<PRINT>"("a=expression()")"{return new Print(a);}
+	| <LET> b=genCtx() <IN> c=mainloop() <END> {return new LetIn(b,c);}
 	
 }
+
+ArrayList<GenCtx> genCtx():
+{ArrayList<GenCtx>a=new ArrayList<GenCtx>();Exp e;Token t;}
+{
+	(<VAR> t=<VARIABLE> ":="e=expression() {a.add(new GenCtx(t.toString(),e));})+{return a;}
+}
+		
 // Expression (the axiom).
 // E -> T ('+'T | '-'T)*
 Exp expression():
 { Exp a,b,c; }
 {
-	"if" a=expression() "then" b=expression() "else" c=expression() {return new Ite(a,b,c);}
+	<IF> a=expression() <THEN> b=expression() <ELSE> c=expression() {return new Ite(a,b,c);}
 	|	
     a=term()
     (
@@ -95,6 +125,7 @@ Exp factor():
 { Token t; Exp e,a; }
 {
       t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
+	| t=<VARIABLE> {return new Var(t.toString());}
 	| t=<CHARC>  { return new CharC(t.toString());}
 	| "-"a=factor() { return new Una(a,"-"); }
 	| "+"a=factor() { return new Una(a,"+"); }
