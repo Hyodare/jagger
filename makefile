@@ -19,6 +19,8 @@ CLASSES	= \
 	GenCtx.java \
 	LetIn.java \
 	Bool.java \
+	For.java \
+	While.java \
 	CharC.java \
 	ErrorType.java \
 	Visitor.java \
