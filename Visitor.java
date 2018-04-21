@@ -14,4 +14,6 @@ public abstract class Visitor
 	public abstract AST visitGenCtx(GenCtx exp);
 	public abstract AST visitLetIn(LetIn exp);
 	public abstract AST visitAffect(Affect exp);
+	public abstract AST visitWhile(While exp);
+	public abstract AST visitFor(For exp);
 }

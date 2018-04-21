@@ -68,6 +68,20 @@ public abstract class VisitorVoid extends Visitor
 		return exp;
 	}
 	
+	@Override public AST visitWhile(While exp)
+	{
+		exp.b.accept(this);
+		for(int i=0;i<exp.c.size();i++)
+		{	
+			exp.c.get(i).accept(this);
+		}
+		return exp;
+	}
+		
+	@Override public AST visitFor(For exp)
+	{
+		return exp;
+	}
 	
 	
 }

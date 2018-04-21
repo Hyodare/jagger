@@ -1,3 +1,5 @@
+ import java.util.ArrayList;
+ 
  public class Eval2 extends VisitorVoid
 {	
 	public Val val;
@@ -80,14 +82,19 @@
 		(exp).cond.accept(cond);
 		int a;
 		if(enumClass.getNb(cond.val)!=0){val=new ErrorType("error : there must be a boolean in conditions");return exp;}
-		if (((Bool)(cond.val)).a!=true){ (exp).pos1.accept(val1);val=val1.val;return exp;} else {(exp).pos2.accept(val1);val=val1.val;return exp;}
+		if (((Bool)(cond.val)).a==true){ (exp).pos1.accept(val1);val=val1.val;return exp;} else {(exp).pos2.accept(val1);val=val1.val;return exp;}
 	}
 	
 	public AST visitLetIn(LetIn p)
 	{
+		ArrayList<String> b=new ArrayList<String>();
+		ArrayList<String> d=new ArrayList<String>();
 		Eval2 a=new Eval2(ctx);
 		for(int i=0;i<p.b.size();i++)
 		{	
+			if (ctx.a.containsKey(p.b.get(i).name))
+			{	b.add(p.b.get(i).name);}
+			else{d.add(p.b.get(i).name);}
 			p.b.get(i).accept(a);
 			//System.out.println("apres it: "+i+ "   "+ctx.a.containsKey(p.b.get(i).name));
 		}
@@ -97,6 +104,22 @@
 			p.c.get(i).accept(a);
 			//System.out.println(a.val);
 		}
+		
+		
+		for(int i=0;i<b.size();i++)
+		{	//a=new Eval2(ctx);
+			a.ctx.a.put(b.get(i),ctx.get(b.get(i)));
+			//System.out.println("change "+ctx.get(b.get(i)));
+			//System.out.println(a.val);
+		}
+		for(int i=0;i<d.size();i++)
+		{	//a=new Eval2(ctx);
+			a.ctx.a.remove(d.get(i));
+			//System.out.println("remove "+ctx.get(d.get(i)));
+			
+			//System.out.println(a.val);
+		}
+		ctx=a.ctx;
 		return p;
 	}
 	
@@ -118,7 +141,7 @@
 		val=ctx.get(exp.name);
 		//System.out.println(val);
 		if(val==null)
-			System.out.println("error : the variable does not exist in this Context");
+			val=new ErrorType("error : the variable does not exist in this Context");
 		return exp;
 	}
 	
@@ -136,25 +159,63 @@
 	}
 		
 		
+	@Override public AST visitWhile(While exp)
+	{	
+
+		exp.b.accept(this);
+				while(((Bool)val).a==true)
+		{
+			for(int i=0;i<exp.c.size();i++)
+			{	
+				exp.c.get(i).accept(this);
+			}
+			exp.b.accept(this);
+		}
+		return exp;
 		
+	}
 		
+	@Override public AST visitFor(For exp)
+	{
+			
+		ArrayList<String> b=new ArrayList<String>();
+		ArrayList<String> d=new ArrayList<String>();
+		Eval2 a=new Eval2(ctx);
+		for(int i=0;i<exp.b.size();i++)
+		{	
+			if (ctx.a.containsKey(exp.b.get(i).name))
+			{	b.add(exp.b.get(i).name);}
+			else{d.add(exp.b.get(i).name);}
+			exp.b.get(i).accept(a);
+		}
+		exp.a.accept(a);
+		while(((Bool)a.val).a)
+		{
+			for(int i=0;i<exp.c.size();i++)
+			{	
+				exp.c.get(i).accept(a);
+			}
+			exp.d.accept(a);
+			exp.a.accept(a);
+		}
 		
+		for(int i=0;i<b.size();i++)
+		{	//a=new Eval2(ctx);
+			a.ctx.a.put(b.get(i),ctx.get(b.get(i)));
+			//System.out.println("change "+ctx.get(b.get(i)));
+			//System.out.println(a.val);
+		}
+		for(int i=0;i<d.size();i++)
+		{	//a=new Eval2(ctx);
+			a.ctx.a.remove(d.get(i));
+			//System.out.println("remove "+ctx.get(d.get(i)));
+			
+			//System.out.println(a.val);
+		}
+		ctx=a.ctx;
+		return exp;
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	}
 		
 		
 	

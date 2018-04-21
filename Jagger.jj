@@ -31,7 +31,6 @@ TOKEN:
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
 |   < EOL: ";" >                             // End of line.
-|	< SEP: "," >
 |	< CHARC:("'")(~["'"])*("'")>
 |	< IF:"if">
 |	< THEN:"then">
@@ -41,6 +40,9 @@ TOKEN:
 |	< END:"end">
 |	< PRINT:"print">
 |	< VAR:"var">
+|	< WHILE:"while">
+|	< FOR:"for">
+|	< DO:"do">
 
 }
 
@@ -73,12 +75,22 @@ Ins instruction():
 	ArrayList<GenCtx> b;
 	ArrayList<AST> c;
 	Token t;
+	AST d;
 }
 {
 	
 	<PRINT>"("a=expression()")"{return new Print(a);}
 	| <LET> b=genCtx() <IN> c=mainloop() <END> {return new LetIn(b,c);}
 	| t=<VARIABLE> ":=" a=expression(){return new Affect(t.toString(),a);}
+	| <WHILE> a=expression() <DO> c=mainloop() <END> {return new While(a,c);}
+	| <FOR> b=genCtx() <EOL> a=expression() <EOL> d=ast() <EOL> <DO> c=mainloop() <END> {return new For(b,a,d,c);}
+	
+	//for en tant que letIn->while
+	/*	{	ArrayList<AST> e=new ArrayList<AST>();
+			c.add(d);
+			e.add(new While(a,c));
+			return new LetIn(b,e);
+		}*/
 	
 }
 

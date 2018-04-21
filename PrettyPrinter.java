@@ -85,6 +85,7 @@ public class PrettyPrinter extends VisitorVoid
 		System.out.print(exp.name);
 		System.out.print(":=");
 		exp.exp.accept(this);
+		System.out.print("  ");
 		return exp;
 	}
 	
@@ -101,4 +102,35 @@ public class PrettyPrinter extends VisitorVoid
 		System.out.print(";");
 		return exp;
 	}
+	
+	@Override public AST visitWhile(While exp)
+	{
+		System.out.print("while ");exp.b.accept(this);
+		System.out.print(" do ");
+		for(int i=0;i<exp.c.size();i++)
+		{	
+			exp.c.get(i).accept(this);
+		}
+		System.out.print("end");
+		return exp;
+	}
+	@Override public AST visitFor(For exp)
+	{
+		System.out.print("for ");
+		for(int i=0;i<exp.b.size();i++)
+		{	
+			exp.b.get(i).accept(this);
+		}
+		System.out.print(" ; ");exp.a.accept(this);
+		System.out.print(" ; ");exp.d.accept(this);
+		System.out.print(" ; do ");
+		for(int i=0;i<exp.c.size();i++)
+		{	
+			exp.c.get(i).accept(this);
+		}
+		System.out.print("end");
+		return exp;
+		
+	}
+		
 }
