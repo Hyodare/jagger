@@ -1,6 +1,7 @@
 
 JFLAGS =
 JC = javac
+JCC = javacc
 .SUFFIXES: .java .class
 .java.class:
 	$(JC) $(JFLAGS) $*.java
@@ -36,9 +37,10 @@ complet:
 	make compile
 	make test
 compile:Jagger.jj
-	javacc Jagger.jj
-	$(JC) Jagger.java
+	$(JCC) Jagger.jj
 	make classes
+	$(JC) Jagger.java
+	
 test: test.txt
 	java Jagger test.txt
 	

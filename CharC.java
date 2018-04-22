@@ -33,7 +33,8 @@ public class CharC extends Val
 		{
 			case 1:return new CharC(a+String.valueOf(((Num)val).a));
 			case 2:return new CharC(a+((CharC)val).a);
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation + impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val sub(Val val)
@@ -42,7 +43,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Num(((Num)val).a-a);
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation - impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val mul(Val val)
@@ -51,8 +53,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Num(((Num)val).a+a);
 			//case 2:
-			
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation * impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val div(Val val)
@@ -61,7 +63,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Num(val.a/a);
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation / impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val sup(Val val)
@@ -70,7 +73,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Bool(val.a>a);
 			case 2:return new Bool(a.compareTo(((CharC)val).a)>0);
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation > impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val inf(Val val)
@@ -79,7 +83,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Bool(val.a<a);
 			case 2:return new Bool(a.compareTo(((CharC)val).a)<0);
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation < impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val eqa(Val val)
@@ -88,7 +93,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Bool(val.a==a);
 			case 2:return new Bool(a.equals(((CharC)val).a)==true);
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation == impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val neq(Val val)
@@ -97,7 +103,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Bool(val.a!=a);
 			case 2:return new Bool(!(a.equals(((CharC)val).a)));
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation <> impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val ieq(Val val)
@@ -106,7 +113,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Bool(val.a<=a);
 			case 2:return new Bool(a.compareTo(((CharC)val).a)<=0);
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation <= impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val seq(Val val)
@@ -115,7 +123,8 @@ public class CharC extends Val
 		{
 			//case (new Num()).getClass():return new Bool(val.a<=a);
 			case 2:return new Bool(a.compareTo(((CharC)val).a)>=0);
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation >= impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val inv()

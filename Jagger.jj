@@ -12,12 +12,16 @@ public class Jagger
     {
         Jagger parser = new Jagger(new FileInputStream(args[0]));
 		ArrayList<AST> a=parser.mainloop();
-		
+		System.out.println("Pretty Printer :\n\n ");
 		for(int i=0;i<a.size();i++)
 		{	Eval2 aze=new Eval2();
-			a.get(i)/*.accept(new PrettyPrinter());System.out.println("");*/.accept(aze);System.out.print("--->");System.out.println(aze.val);
+			a.get(i).accept(new PrettyPrinter());System.out.println("");
 		}
-		
+		System.out.println("\n\nEvaluateur :\n\n ");
+		for(int i=0;i<a.size();i++)
+		{	Eval2 aze=new Eval2();
+			a.get(i).accept(aze);System.out.print("--->");System.out.println(aze.val);
+		}
     }
 }
 PARSER_END(Jagger)

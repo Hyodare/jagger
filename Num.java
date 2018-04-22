@@ -21,8 +21,8 @@ public class Num extends Val
 		switch(enumClass.getNb(val))
 		{
 			case 1:return new Num(((Num)val).a+a);
-			//case 2:
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation + impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val sub(Val val)
@@ -31,7 +31,8 @@ public class Num extends Val
 		{
 			case 1:return new Num(a-((Num)val).a);
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation - impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val mul(Val val)
@@ -50,7 +51,8 @@ public class Num extends Val
 					return new CharC(str);
 			}
 			
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation * impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val div(Val val)
@@ -59,7 +61,8 @@ public class Num extends Val
 		{
 			 case 1:return new Num(a/((Num)val).a);
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation / impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val sup(Val val)
@@ -68,7 +71,8 @@ public class Num extends Val
 		{
 			case 1:return new Bool(a>((Num)val).a);
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			case 3:return val;
+			default: return new ErrorType("operation > impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val inf(Val val)
@@ -76,8 +80,9 @@ public class Num extends Val
 		switch(enumClass.getNb(val))
 		{
 			case 1:return new Bool(a<((Num)val).a);
+			case 3:return val;
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			default: return new ErrorType("operation < impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val eqa(Val val)
@@ -85,8 +90,9 @@ public class Num extends Val
 		switch(enumClass.getNb(val))
 		{
 			case 1:return new Bool(a==((Num)val).a);
+			case 3:return val;
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			default: return new ErrorType("operation == impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val neq(Val val)
@@ -94,8 +100,9 @@ public class Num extends Val
 		switch(enumClass.getNb(val))
 		{
 			case 1:return new Bool(a!=((Num)val).a);
+			case 3:return val;
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			default: return new ErrorType("operation <> impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val ieq(Val val)
@@ -103,8 +110,9 @@ public class Num extends Val
 		switch(enumClass.getNb(val))
 		{
 			case 1:return new Bool(a<=((Num)val).a);
+			case 3:return val;
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			default: return new ErrorType("operation <= impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val seq(Val val)
@@ -112,8 +120,9 @@ public class Num extends Val
 		switch(enumClass.getNb(val))
 		{
 			case 1:return new Bool(a>=((Num)val).a);
+			case 3:return val;
 			//case 2:
-			default: return new ErrorType("erreur de typage");
+			default: return new ErrorType("operation >= impossible between type :"+ enumClass.getNb(this)+ " and type : "+enumClass.getNb(val));
 		}
 	}
 	@Override public Val inv()

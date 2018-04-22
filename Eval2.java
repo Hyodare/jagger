@@ -77,12 +77,17 @@
 	}
 	public AST visitIte(Ite exp)
 	{
-		Eval2 val1= new Eval2(ctx);
+		Eval2 val1= new Eval2(ctx);(exp).pos1.accept(val1);
+		Eval2 val2= new Eval2(ctx);(exp).pos2.accept(val2);
+		if(enumClass.getNb(val1.val) != enumClass.getNb(val2.val))
+		{	val=new ErrorType("error then and else must have same type");
+			return exp;
+		}
 		Eval2 cond= new Eval2(ctx);
 		(exp).cond.accept(cond);
 		int a;
 		if(enumClass.getNb(cond.val)!=0){val=new ErrorType("error : there must be a boolean in conditions");return exp;}
-		if (((Bool)(cond.val)).a==true){ (exp).pos1.accept(val1);val=val1.val;return exp;} else {(exp).pos2.accept(val1);val=val1.val;return exp;}
+		if (((Bool)(cond.val)).a==true){ val=val1.val;return exp;} else {val=val2.val;return exp;}
 	}
 	
 	public AST visitLetIn(LetIn p)
@@ -96,50 +101,46 @@
 			{	b.add(p.b.get(i).name);}
 			else{d.add(p.b.get(i).name);}
 			p.b.get(i).accept(a);
-			//System.out.println("apres it: "+i+ "   "+ctx.a.containsKey(p.b.get(i).name));
+			
 		}
-		//Eval2 a;
+		
 		for(int i=0;i<p.c.size();i++)
-		{	//a=new Eval2(ctx);
+		{
 			p.c.get(i).accept(a);
-			//System.out.println(a.val);
+			
 		}
 		
 		
 		for(int i=0;i<b.size();i++)
-		{	//a=new Eval2(ctx);
+		{
 			a.ctx.a.put(b.get(i),ctx.get(b.get(i)));
-			//System.out.println("change "+ctx.get(b.get(i)));
-			//System.out.println(a.val);
+			
 		}
 		for(int i=0;i<d.size();i++)
-		{	//a=new Eval2(ctx);
+		{	
 			a.ctx.a.remove(d.get(i));
-			//System.out.println("remove "+ctx.get(d.get(i)));
 			
-			//System.out.println(a.val);
 		}
 		ctx=a.ctx;
 		return p;
 	}
 	
 	public AST visitGenCtx(GenCtx exp)
-	{//System.out.println("jajoute: "+exp.name);
+	{
 	
 		Eval2 a=new Eval2(ctx);
-		//System.out.println("debut ctx : "+a.ctx.a.containsKey("i"));
+		
 		exp.exp.accept(a);
 		ctx.put(exp.name,a.val);
-		//System.out.println("fin ctx : "+a.ctx.a.containsKey("i"));
+		
 		return exp;
 	}
 	
 	public AST visitVar(Var exp)
 	{
-		//System.out.println("name: "+exp.name);
-		//System.out.println(ctx.a.containsKey("i"));
+		
 		val=ctx.get(exp.name);
-		//System.out.println(val);
+		
 		if(val==null)
 			val=new ErrorType("error : the variable does not exist in this Context");
 		return exp;
@@ -200,17 +201,14 @@
 		}
 		
 		for(int i=0;i<b.size();i++)
-		{	//a=new Eval2(ctx);
+		{	
 			a.ctx.a.put(b.get(i),ctx.get(b.get(i)));
-			//System.out.println("change "+ctx.get(b.get(i)));
-			//System.out.println(a.val);
+			
 		}
 		for(int i=0;i<d.size();i++)
-		{	//a=new Eval2(ctx);
+		{	
 			a.ctx.a.remove(d.get(i));
-			//System.out.println("remove "+ctx.get(d.get(i)));
 			
-			//System.out.println(a.val);
 		}
 		ctx=a.ctx;
 		return exp;

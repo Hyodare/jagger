@@ -10,6 +10,8 @@ public class enumClass
 		
 		if (a.getClass()== (new CharC("")).getClass())
 			return 2;
+		if (a.getClass()== (new ErrorType("")).getClass())
+			return 3;
 		return -1;
 	}
 }
