@@ -34,6 +34,8 @@ TOKEN:
 {
     < NUMBER: (<DIGIT>)+ ("." (<DIGIT>)*)? >  // A decimal number.
 |   < DIGIT: ["0"-"9"] >                      // A decimal digit.
+|	< TRUE:"true">
+|	< FALSE:"false">
 |   < EOL: ";" >                             // End of line.
 |	< CHARC:("'")(~["'"])*("'")>
 |	< IF:"if">
@@ -144,6 +146,8 @@ Exp factor():
       t=<NUMBER> { return new Num(Double.parseDouble(t.toString())); }
 	| t=<VARIABLE> {return new Var(t.toString());}
 	| t=<CHARC>  { return new CharC(t.toString());}
+	| <TRUE>{return new Bool(true);}
+	| <FALSE>{return new Bool(false);}
 	| "-"a=factor() { return new Una(a,"-"); }
 	| "+"a=factor() { return new Una(a,"+"); }
     | "(" e=expression() ")" { return e; }
